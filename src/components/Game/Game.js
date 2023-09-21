@@ -14,14 +14,8 @@ const answer = sample(WORDS);
 console.info({ answer });
 
 function Game() {
-    const [guessList, setGuessList] = React.useState([
-        { id: 123, value: checkGuess("FIRST", answer) },
-        { id: 456, value: checkGuess("GUESS", answer) },
-    ]);
-
+    const [guessList, setGuessList] = React.useState([]);
     const [gameStatus, setGameStatus] = React.useState("running");
-
-    console.log(gameStatus);
 
     function handleSubmitGuess(tentativeGuess) {
         if (guessList.length >= NUM_OF_GUESSES_ALLOWED) {
@@ -60,7 +54,10 @@ function Game() {
                     noOfGuesses={guessList.length}
                 ></EndBanner>
             )}
-            <GuessInput handleSubmitGuess={handleSubmitGuess} />
+            <GuessInput
+                handleSubmitGuess={handleSubmitGuess}
+                gameStatus={gameStatus}
+            />
         </>
     );
 }
