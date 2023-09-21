@@ -6,6 +6,7 @@ function GuessInput({ handleSubmitGuess }) {
     return (
         <>
             <form
+                autoComplete="off"
                 className="guess-input-wrapper"
                 onSubmit={(event) => {
                     event.preventDefault();
