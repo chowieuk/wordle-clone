@@ -16,7 +16,7 @@ function GuessList({ guessList }) {
                 {range(guessList.length, NUM_OF_GUESSES_ALLOWED).map(() => (
                     <Guess
                         key={crypto.randomUUID()}
-                        value={"     "}
+                        value={undefined}
                     ></Guess>
                 ))}
             </div>
