@@ -57,7 +57,10 @@ function Game() {
         ];
         setGuessList(nextGuessList);
 
-        if (nextGuessList.length === NUM_OF_GUESSES_ALLOWED) {
+        if (
+            (tentativeGuess !== answer && nextGuessList.length) ===
+            NUM_OF_GUESSES_ALLOWED
+        ) {
             const nextPastAnswers = [...pastAnswers, answer];
             setPastAnswers(nextPastAnswers);
             setGameStatus("lost");
