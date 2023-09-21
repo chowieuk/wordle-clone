@@ -5,6 +5,7 @@ import { WORDS } from "../../data";
 import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 import GuessInput from "../GuessInput/GuessInput";
 import GuessList from "../GuessList/GuessList";
+import EndBanner from "../EndBanner";
 import { checkGuess } from "../../game-helpers";
 
 // Pick a random word on every pageload.
@@ -37,6 +38,20 @@ function Game() {
                 guessList={guessList}
                 setGuessList={setGuessList}
             />
+            {guessList.length === NUM_OF_GUESSES_ALLOWED && (
+                <EndBanner
+                    status="sad"
+                    answer={answer}
+                ></EndBanner>
+            )}
+            {guessList[guessList.length - 1].value
+                .map((obj) => obj.letter)
+                .join("") === answer && (
+                <EndBanner
+                    status="happy"
+                    noOfGuesses={guessList.length}
+                ></EndBanner>
+            )}
             <GuessInput handleSubmitGuess={handleSubmitGuess} />
         </>
     );
