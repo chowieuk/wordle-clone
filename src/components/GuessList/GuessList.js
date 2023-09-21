@@ -8,10 +8,16 @@ function GuessList({ guessList }) {
         <>
             <div className="guess-results">
                 {guessList.map(({ id, value }) => (
-                    <Guess key={id}>{value}</Guess>
+                    <Guess
+                        key={id}
+                        value={value}
+                    ></Guess>
                 ))}
                 {range(guessList.length, NUM_OF_GUESSES_ALLOWED).map(() => (
-                    <Guess key={crypto.randomUUID()}>{"     "}</Guess>
+                    <Guess
+                        key={crypto.randomUUID()}
+                        value={"     "}
+                    ></Guess>
                 ))}
             </div>
         </>

@@ -1,9 +1,9 @@
 import React from "react";
 
-function Guess({ children }) {
+function Guess({ value }) {
     return (
         <p className="guess">
-            {children.split("").map((letter) => (
+            {value.split("").map((letter) => (
                 <span className="cell">{letter}</span>
             ))}
         </p>
