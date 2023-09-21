@@ -230,3 +230,39 @@ h1 {
     transform: translateY(0%);
   }
 }
+
+/*
+  Onscreen Keyboard Styles
+*/
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.keyCell {
+  position: relative;
+  width: 30;
+  display: grid;
+  place-content: center;
+  aspect-ratio: 1 / 1;
+  background: var(--color-gray-900);
+  font-weight: bold;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.keyCell.correct {
+  background: var(--color-success);
+  color: white;
+}
+.keyCell.incorrect {
+  background: var(--color-gray-300);
+  color: white;
+}
+.keyCell.misplaced {
+  background: var(--color-warning);
+  color: white;
+}

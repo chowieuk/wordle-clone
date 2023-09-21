@@ -8,6 +8,7 @@ import GuessList from "../GuessList/GuessList";
 import { checkGuess } from "../../game-helpers";
 import LossBanner from "../LossBanner";
 import WonBanner from "../WonBanner/WonBanner";
+import Keyboard from "../Keyboard/Keyboard";
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -16,6 +17,38 @@ console.info({ answer });
 function Game() {
     const [guessList, setGuessList] = React.useState([]);
     const [gameStatus, setGameStatus] = React.useState("running");
+    const [topKeyRow, setTopKeyRow] = React.useState([
+        { Q: "correct" },
+        { W: "incorrect" },
+        { E: "misplaced" },
+        { R: "incorrect" },
+        { T: "" },
+        { Y: "" },
+        { U: "" },
+        { I: "" },
+        { O: "" },
+        { P: "" },
+    ]);
+    const [midKeyRow, setMidKeyRow] = React.useState([
+        { A: "correct" },
+        { S: "incorrect" },
+        { D: "misplaced" },
+        { F: "incorrect" },
+        { G: "" },
+        { H: "" },
+        { J: "" },
+        { K: "" },
+        { L: "" },
+    ]);
+    const [botKeyRow, setBotKeyRow] = React.useState([
+        { Z: "correct" },
+        { X: "incorrect" },
+        { C: "misplaced" },
+        { V: "incorrect" },
+        { B: "" },
+        { N: "" },
+        { M: "" },
+    ]);
     console.log(gameStatus);
 
     function handleSubmitGuess(tentativeGuess) {
@@ -51,6 +84,11 @@ function Game() {
                 handleSubmitGuess={handleSubmitGuess}
                 gameStatus={gameStatus}
             />
+            <Keyboard
+                topKeyRow={topKeyRow}
+                midKeyRow={midKeyRow}
+                botKeyRow={botKeyRow}
+            ></Keyboard>
         </>
     );
 }
