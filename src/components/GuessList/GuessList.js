@@ -7,16 +7,14 @@ function GuessList({ guessList }) {
     return (
         <>
             <div className="guess-results">
-                {guessList.map(({ id, value }) => (
+                {range(NUM_OF_GUESSES_ALLOWED).map((num) => (
                     <Guess
-                        key={id}
-                        value={value}
-                    ></Guess>
-                ))}
-                {range(guessList.length, NUM_OF_GUESSES_ALLOWED).map(() => (
-                    <Guess
-                        key={crypto.randomUUID()}
-                        value={undefined}
+                        key={
+                            guessList[num]
+                                ? guessList[num].id
+                                : crypto.randomUUID()
+                        }
+                        value={guessList[num] ? guessList[num].value : null}
                     ></Guess>
                 ))}
             </div>
