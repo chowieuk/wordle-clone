@@ -19,6 +19,10 @@ function Game() {
         { id: 456, value: checkGuess("GUESS", answer) },
     ]);
 
+    const [gameStatus, setGameStatus] = React.useState("running");
+
+    console.log(gameStatus);
+
     function handleSubmitGuess(tentativeGuess) {
         if (guessList.length >= NUM_OF_GUESSES_ALLOWED) {
             return;
@@ -31,6 +35,12 @@ function Game() {
             },
         ];
         setGuessList(nextGuessList);
+
+        if (nextGuessList.length === NUM_OF_GUESSES_ALLOWED) {
+            setGameStatus("lost");
+        } else if (tentativeGuess === answer) {
+            setGameStatus("won");
+        }
     }
     return (
         <>
@@ -38,15 +48,13 @@ function Game() {
                 guessList={guessList}
                 setGuessList={setGuessList}
             />
-            {guessList.length === NUM_OF_GUESSES_ALLOWED && (
+            {gameStatus === "lost" && (
                 <EndBanner
                     status="sad"
                     answer={answer}
                 ></EndBanner>
             )}
-            {guessList[guessList.length - 1].value
-                .map((obj) => obj.letter)
-                .join("") === answer && (
+            {gameStatus === "won" && (
                 <EndBanner
                     status="happy"
                     noOfGuesses={guessList.length}
