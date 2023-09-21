@@ -1,20 +1,20 @@
 import React from "react";
 
-function KeyboardKeyCell({ value, status }) {
-    return <div className={`${status} keyCell`}>{value}</div>;
+function KeyboardKeyCell({ letter, status }) {
+    return <div className={`${status} keyCell`}>{letter}</div>;
 }
 
 function KeyboardRow({ rowKeys }) {
     // console.log(Object.entries(rowKeys));
     return (
         <div className="keyboard-row">
-            {rowKeys.map((obj) => {
-                const [key, value] = Object.entries(obj)[0];
+            {rowKeys.map((entry) => {
+                const [letter, status] = entry;
                 return (
                     <KeyboardKeyCell
-                        key={key}
-                        value={key}
-                        status={value}
+                        key={letter}
+                        letter={letter}
+                        status={status}
                     />
                 );
             })}

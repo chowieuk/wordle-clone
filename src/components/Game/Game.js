@@ -17,49 +17,62 @@ console.info({ answer });
 function Game() {
     const [guessList, setGuessList] = React.useState([]);
     const [gameStatus, setGameStatus] = React.useState("running");
-    const [topKeyRow, setTopKeyRow] = React.useState([
-        { Q: "correct" },
-        { W: "incorrect" },
-        { E: "misplaced" },
-        { R: "incorrect" },
-        { T: "" },
-        { Y: "" },
-        { U: "" },
-        { I: "" },
-        { O: "" },
-        { P: "" },
-    ]);
-    const [midKeyRow, setMidKeyRow] = React.useState([
-        { A: "correct" },
-        { S: "incorrect" },
-        { D: "misplaced" },
-        { F: "incorrect" },
-        { G: "" },
-        { H: "" },
-        { J: "" },
-        { K: "" },
-        { L: "" },
-    ]);
-    const [botKeyRow, setBotKeyRow] = React.useState([
-        { Z: "correct" },
-        { X: "incorrect" },
-        { C: "misplaced" },
-        { V: "incorrect" },
-        { B: "" },
-        { N: "" },
-        { M: "" },
-    ]);
+    const [keyboardKeys, setKeyboardKeys] = React.useState({
+        Q: "",
+        W: "",
+        E: "",
+        R: "",
+        T: "",
+        Y: "",
+        U: "",
+        I: "",
+        O: "",
+        P: "",
+        A: "",
+        S: "",
+        D: "",
+        F: "",
+        G: "",
+        H: "",
+        J: "",
+        K: "",
+        L: "",
+        Z: "",
+        X: "",
+        C: "",
+        V: "",
+        B: "",
+        N: "",
+        M: "",
+    });
     console.log(gameStatus);
 
     function handleSubmitGuess(tentativeGuess) {
         if (guessList.length >= NUM_OF_GUESSES_ALLOWED) {
             return;
         }
+        const checkedGuessResult = checkGuess(tentativeGuess, answer);
+
+        for (let { letter, status } of checkedGuessResult) {
+            if (keyboardKeys[letter] === "correct") {
+                continue;
+            } else if (
+                keyboardKeys[letter] === "misplaced" &&
+                status !== "correct"
+            ) {
+                continue;
+            } else {
+                const nextKeyboard = keyboardKeys;
+                nextKeyboard[letter] = status;
+                setKeyboardKeys(nextKeyboard);
+            }
+        }
+
         const nextGuessList = [
             ...guessList,
             {
                 id: crypto.randomUUID(),
-                value: checkGuess(tentativeGuess, answer),
+                value: checkedGuessResult,
             },
         ];
         setGuessList(nextGuessList);
@@ -76,19 +89,19 @@ function Game() {
                 guessList={guessList}
                 setGuessList={setGuessList}
             />
-            {gameStatus === "lost" && <LossBanner answer={answer}></LossBanner>}
-            {gameStatus === "won" && (
-                <WonBanner noOfGuesses={guessList.length}></WonBanner>
-            )}
             <GuessInput
                 handleSubmitGuess={handleSubmitGuess}
                 gameStatus={gameStatus}
             />
             <Keyboard
-                topKeyRow={topKeyRow}
-                midKeyRow={midKeyRow}
-                botKeyRow={botKeyRow}
+                topKeyRow={Object.entries(keyboardKeys).slice(0, 10)}
+                midKeyRow={Object.entries(keyboardKeys).slice(10, 19)}
+                botKeyRow={Object.entries(keyboardKeys).slice(19, 25)}
             ></Keyboard>
+            {gameStatus === "lost" && <LossBanner answer={answer}></LossBanner>}
+            {gameStatus === "won" && (
+                <WonBanner noOfGuesses={guessList.length}></WonBanner>
+            )}
         </>
     );
 }
