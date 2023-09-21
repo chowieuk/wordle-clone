@@ -266,3 +266,9 @@ h1 {
   background: var(--color-warning);
   color: white;
 }
+.reset-button{
+    background: var(--color-warning);
+    border: 2px solid var(--color-gray-700);
+    border-radius: var(--radius);
+    padding: 2% 5%;
+}

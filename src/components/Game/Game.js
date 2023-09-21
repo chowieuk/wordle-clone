@@ -2,50 +2,30 @@ import React from "react";
 
 import { sample } from "../../utils";
 import { WORDS } from "../../data";
-import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
+import { NUM_OF_GUESSES_ALLOWED, UNUSED_KEYBOARD } from "../../constants";
 import GuessInput from "../GuessInput/GuessInput";
 import GuessList from "../GuessList/GuessList";
 import { checkGuess } from "../../game-helpers";
 import LossBanner from "../LossBanner";
 import WonBanner from "../WonBanner/WonBanner";
 import Keyboard from "../Keyboard/Keyboard";
+import ResetGameButton from "../ResetGameButton/ResetGameButton";
 
-// Pick a random word on every pageload.
-const answer = sample(WORDS);
-// To make debugging easier, we'll log the solution in the console.
-console.info({ answer });
 function Game() {
+    //set our wordlist in stone
+
+    // Pick a random word on mount
+    const [answer, setAnswer] = React.useState(() => {
+        return sample(WORDS);
+    });
+    const [pastAnswers, setPastAnswers] = React.useState([]);
+    // To make debugging easier, we'll log the solution and past answers in the console.
+    console.info({ answer, pastAnswers });
     const [guessList, setGuessList] = React.useState([]);
     const [gameStatus, setGameStatus] = React.useState("running");
     const [keyboardKeys, setKeyboardKeys] = React.useState({
-        Q: "",
-        W: "",
-        E: "",
-        R: "",
-        T: "",
-        Y: "",
-        U: "",
-        I: "",
-        O: "",
-        P: "",
-        A: "",
-        S: "",
-        D: "",
-        F: "",
-        G: "",
-        H: "",
-        J: "",
-        K: "",
-        L: "",
-        Z: "",
-        X: "",
-        C: "",
-        V: "",
-        B: "",
-        N: "",
-        M: "",
+        ...UNUSED_KEYBOARD,
     });
-    console.log(gameStatus);
 
     function handleSubmitGuess(tentativeGuess) {
         if (guessList.length >= NUM_OF_GUESSES_ALLOWED) {
@@ -78,8 +58,12 @@ function Game() {
         setGuessList(nextGuessList);
 
         if (nextGuessList.length === NUM_OF_GUESSES_ALLOWED) {
+            const nextPastAnswers = [...pastAnswers, answer];
+            setPastAnswers(nextPastAnswers);
             setGameStatus("lost");
         } else if (tentativeGuess === answer) {
+            const nextPastAnswers = [...pastAnswers, answer];
+            setPastAnswers(nextPastAnswers);
             setGameStatus("won");
         }
     }
@@ -98,9 +82,35 @@ function Game() {
                 midKeyRow={Object.entries(keyboardKeys).slice(10, 19)}
                 botKeyRow={Object.entries(keyboardKeys).slice(19, 25)}
             ></Keyboard>
-            {gameStatus === "lost" && <LossBanner answer={answer}></LossBanner>}
+            {gameStatus === "lost" && (
+                <LossBanner answer={answer}>
+                    {pastAnswers.length < WORDS.length ? (
+                        <ResetGameButton
+                            pastAnswers={pastAnswers}
+                            setAnswer={setAnswer}
+                            setGuessList={setGuessList}
+                            setGameStatus={setGameStatus}
+                            setKeyboardKeys={setKeyboardKeys}
+                        />
+                    ) : (
+                        "Woah you completed all the answers, good job!"
+                    )}
+                </LossBanner>
+            )}
             {gameStatus === "won" && (
-                <WonBanner noOfGuesses={guessList.length}></WonBanner>
+                <WonBanner noOfGuesses={guessList.length}>
+                    {pastAnswers.length < WORDS.length ? (
+                        <ResetGameButton
+                            pastAnswers={pastAnswers}
+                            setAnswer={setAnswer}
+                            setGuessList={setGuessList}
+                            setGameStatus={setGameStatus}
+                            setKeyboardKeys={setKeyboardKeys}
+                        />
+                    ) : (
+                        "Woah you completed all the answers, good job!"
+                    )}
+                </WonBanner>
             )}
         </>
     );
