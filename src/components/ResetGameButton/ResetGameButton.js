@@ -10,7 +10,7 @@ function ResetGameButton({
     setGameStatus,
     setKeyboardKeys,
 }) {
-    const nextAnswer = (pastAnswers) => {
+    const getNextAnswer = (pastAnswers) => {
         let candidate = sample(WORDS);
         while (pastAnswers.includes(candidate)) {
             candidate = sample(WORDS);
@@ -18,7 +18,9 @@ function ResetGameButton({
         return candidate;
     };
     const reset = () => {
-        setAnswer(nextAnswer(pastAnswers));
+        const currentAnswer = getNextAnswer(pastAnswers);
+        console.info({ currentAnswer, pastAnswers });
+        setAnswer(currentAnswer);
         setGuessList([]);
         setGameStatus("running");
         setKeyboardKeys({ ...UNUSED_KEYBOARD });

@@ -16,11 +16,12 @@ function Game() {
 
     // Pick a random word on mount
     const [answer, setAnswer] = React.useState(() => {
-        return sample(WORDS);
+        const currentAnswer = sample(WORDS);
+        // To make debugging easier, we'll log the solution in the console.
+        console.info({ currentAnswer });
+        return currentAnswer;
     });
     const [pastAnswers, setPastAnswers] = React.useState([]);
-    // To make debugging easier, we'll log the solution and past answers in the console.
-    console.info({ answer, pastAnswers });
     const [guessList, setGuessList] = React.useState([]);
     const [gameStatus, setGameStatus] = React.useState("running");
     const [keyboardKeys, setKeyboardKeys] = React.useState({
