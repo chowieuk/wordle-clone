@@ -74,6 +74,12 @@ function Game() {
     }
     return (
         <>
+            <div
+                data-testid="answerForTesting"
+                style={{ display: "none" }}
+            >
+                {answer}
+            </div>
             <GuessList
                 guessList={guessList}
                 setGuessList={setGuessList}
