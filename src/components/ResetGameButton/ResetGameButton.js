@@ -10,6 +10,13 @@ function ResetGameButton({
     setGameStatus,
     setKeyboardKeys,
 }) {
+    const buttonRef = React.useRef(null);
+    React.useEffect(() => {
+        if (buttonRef.current) {
+            buttonRef.current.focus();
+        }
+    }, []); // Empty dependency array to ensure useEffect runs only once
+
     const getNextAnswer = (pastAnswers) => {
         let candidate = sample(WORDS);
         while (pastAnswers.includes(candidate)) {
@@ -27,6 +34,7 @@ function ResetGameButton({
     };
     return (
         <button
+            ref={buttonRef}
             className="reset-button"
             onClick={reset}
         >

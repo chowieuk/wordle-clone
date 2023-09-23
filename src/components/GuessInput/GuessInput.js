@@ -2,6 +2,13 @@ import React from "react";
 
 function GuessInput({ handleSubmitGuess, gameStatus }) {
     const [tentativeGuess, setTentativeGuess] = React.useState("");
+    // Focus input on mount
+    const inputRef = React.useRef(null);
+    React.useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, []); // Empty dependency array to ensure useEffect runs only once
 
     return (
         <>
@@ -16,6 +23,7 @@ function GuessInput({ handleSubmitGuess, gameStatus }) {
             >
                 <label htmlFor="guess-input">Enter guess:</label>
                 <input
+                    ref={inputRef}
                     id="guess-input"
                     type="text"
                     disabled={gameStatus !== "running"}
