@@ -28,10 +28,10 @@ What actions can a user take, and what outcomes can they expect?
     -   cannot submit a non five character guess
     -   cannot enter more than five characters
     -   cannot enter non-alphabetical characters
+    -   guess input field is reset on submission
 
 -   submit a guess
 
-    -   guess input field is reset on submission
     -   submitted guesses appears in the guess list
         -   the letters of these guesses are appropriately formatted
     -   the letters of the submited guesses are appropriately formatted in the onscreen keyboard
