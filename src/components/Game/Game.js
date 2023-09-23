@@ -85,7 +85,7 @@ function Game() {
             <Keyboard
                 topKeyRow={Object.entries(keyboardKeys).slice(0, 10)}
                 midKeyRow={Object.entries(keyboardKeys).slice(10, 19)}
-                botKeyRow={Object.entries(keyboardKeys).slice(19, 25)}
+                botKeyRow={Object.entries(keyboardKeys).slice(19)}
             ></Keyboard>
             {gameStatus === "lost" && (
                 <LossBanner answer={answer}>
