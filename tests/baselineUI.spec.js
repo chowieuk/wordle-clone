@@ -33,8 +33,8 @@ test("all guesses are visible", async ({ page }) => {
 });
 
 test("appropriate number of guesses", async ({ page }) => {
-    const guesses = await page.locator(".guess").all();
-    await expect(guesses.length).toEqual(NUM_OF_GUESSES_ALLOWED);
+    const guessCount = await page.locator(".guess").count();
+    await expect(guessCount).toEqual(NUM_OF_GUESSES_ALLOWED);
 });
 
 test("all guess cells are visible", async ({ page }) => {
