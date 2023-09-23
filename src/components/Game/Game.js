@@ -3,12 +3,13 @@ import React from "react";
 import { sample } from "../../utils";
 import { WORDS } from "../../data";
 import { NUM_OF_GUESSES_ALLOWED, UNUSED_KEYBOARD } from "../../constants";
-import GuessInput from "../GuessInput/GuessInput";
-import GuessList from "../GuessList/GuessList";
 import { checkGuess } from "../../game-helpers";
-import LossBanner from "../LossBanner";
-import WonBanner from "../WonBanner/WonBanner";
+
+import GuessList from "../GuessList/GuessList";
+import GuessInput from "../GuessInput/GuessInput";
 import Keyboard from "../Keyboard/Keyboard";
+import LossBanner from "../LossBanner/LossBanner";
+import WonBanner from "../WonBanner/WonBanner";
 import ResetGameButton from "../ResetGameButton/ResetGameButton";
 
 function Game() {
