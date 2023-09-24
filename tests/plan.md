@@ -51,3 +51,17 @@ What actions can a user take, and what outcomes can they expect?
     -   a new target answer is chosen
         -   this target answer should not be from one previouly guessed during this session
     -   the formatting on the onscreen keyboard is reset
+
+Potential file structure
+
+```
+tests/
+|-- baselineUI.spec.js <-- For static/foundational UI tests
+|-- header.spec.js
+|-- guessList.spec.js
+|-- guessInput.spec.js
+|-- banners.spec.js
+|-- onscreenKeyboard.spec.js
+|-- utils/
+    |-- helpers.js
+```
