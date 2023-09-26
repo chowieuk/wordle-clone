@@ -24,7 +24,12 @@ test("submitted guesses are rendered in the appropriate entry in the guess list"
         for (let j = 0; j <= i; j++) {
             const guess = page.locator(".guess").nth(j);
             const guessTextContents = await guess.allTextContents();
-            expect(guessTextContents[0]).toBe("GUESS");
+
+            const strippedOfAccessibilityText = guessTextContents[0]
+                .replace(/(misplaced|incorrect|correct)/g, "")
+                .replace(/\s+/g, "");
+
+            expect(strippedOfAccessibilityText).toBe("GUESS");
         }
     }
 });
@@ -48,11 +53,6 @@ test("submitted guesses are formatted appropriately when compared to the answer"
         for (let j = 0; j <= i; j++) {
             const guess = page.locator(".guess").nth(j);
 
-            // Check the text contents of the guess is as expected
-
-            const guessTextContents = await guess.allTextContents();
-            expect(guessTextContents[0]).toBe(testGuessString);
-
             // Check the class name contents of the cells is as expected
             const cells = await guess.locator(".cell").all();
             const classNames = await Promise.all(
@@ -66,6 +66,36 @@ test("submitted guesses are formatted appropriately when compared to the answer"
             expect(classNames[2]).toBe("cell misplaced");
             expect(classNames[3]).toBe("cell correct");
             expect(classNames[4]).toBe("cell correct");
+        }
+    }
+});
+
+test("submitted guesses contain the expected accessibility text compared to the answer", async ({
+    page,
+}) => {
+    const guessInput = page.getByLabel("Enter guess:");
+    const answer = await page.getByTestId("answerForTesting").innerText();
+    const testGuessString = generateTestGuess(answer);
+
+    for (let i = 0; i < NUM_OF_GUESSES_ALLOWED; i++) {
+        // Submit the guess
+        await guessInput.fill(testGuessString);
+        await guessInput.press("Enter");
+
+        // Check all the previous guesses up to the current one
+        for (let j = 0; j <= i; j++) {
+            const guess = page.locator(".guess").nth(j);
+
+            // Check the entire text contents of the guess including accessibility text is as expected
+
+            // Check the class name contents of the cells is as expected
+            const cellTexts = await guess.locator(".cell").allInnerTexts();
+
+            expect(cellTexts[0]).toBe(`${testGuessString[0]}\nincorrect`);
+            expect(cellTexts[1]).toBe(`${testGuessString[1]}\nincorrect`);
+            expect(cellTexts[2]).toBe(`${testGuessString[2]}\nmisplaced`);
+            expect(cellTexts[3]).toBe(`${testGuessString[3]}\ncorrect`);
+            expect(cellTexts[4]).toBe(`${testGuessString[4]}\ncorrect`);
         }
     }
 });

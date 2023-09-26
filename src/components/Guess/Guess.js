@@ -1,9 +1,14 @@
 import React from "react";
 import { range } from "../../utils";
+import VisuallyHidden from "../VisuallyHidden/VisuallyHidden";
 
 function Cell({ letter, status }) {
     const className = status ? `cell ${status}` : "cell";
-    return <span className={className}>{letter}</span>;
+    return (
+        <span className={className}>
+            {letter} <VisuallyHidden>{status && `${status}`}</VisuallyHidden>
+        </span>
+    );
 }
 
 function Guess({ value }) {
