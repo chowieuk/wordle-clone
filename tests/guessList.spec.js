@@ -2,6 +2,7 @@
 import { test, expect } from "@playwright/experimental-ct-react";
 import { range } from "../src/utils";
 import { NUM_OF_GUESSES_ALLOWED } from "../src/constants";
+import { generateTestGuess } from "./utils/helpers";
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -39,34 +40,7 @@ test("submitted guesses are formatted appropriately when compared to the answer"
 }) => {
     const guessInput = page.getByLabel("Enter guess:");
     const answer = await page.getByTestId("answerForTesting").innerText();
-
-    // Get a character not present in the answer
-    let absentChar = "";
-    for (let char of alphabet) {
-        if (!answer.includes(char)) {
-            absentChar = char;
-            break;
-        }
-    }
-
-    // Get a misplaced character using the first two answer characters
-    // (we're assuming the first three letters aren't the same)
-    let potentialMisplacedChars = [answer[0], answer[1]];
-
-    let misplacedChar;
-    do {
-        const randomIndex = Math.floor(
-            Math.random() * potentialMisplacedChars.length
-        );
-        misplacedChar = potentialMisplacedChars[randomIndex];
-    } while (misplacedChar === answer[2]);
-
-    // Construct the test string
-    let testGuessString = absentChar + absentChar; // start with the absent characters twice
-    testGuessString += misplacedChar; // add the misplaced character we took from our first two
-
-    // Add the remaining correct characters to complete the 5-char length
-    testGuessString += answer.slice(testGuessString.length);
+    const testGuessString = generateTestGuess(answer);
 
     for (let i = 0; i < NUM_OF_GUESSES_ALLOWED; i++) {
         // Submit the guess
