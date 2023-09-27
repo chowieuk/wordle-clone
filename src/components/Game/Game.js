@@ -11,6 +11,12 @@ import Keyboard from "../Keyboard/Keyboard";
 import LossBanner from "../LossBanner/LossBanner";
 import WonBanner from "../WonBanner/WonBanner";
 import ResetGameButton from "../ResetGameButton/ResetGameButton";
+import GuessCandidate from "../GuessCandidate/GuessCandidate";
+import Guess from "../Guess/Guess";
+
+function stringToObjectArray(str) {
+    return str.split("").map((char) => ({ letter: char }));
+}
 
 function Game() {
     //set our wordlist in stone
@@ -22,6 +28,7 @@ function Game() {
         console.info({ currentAnswer });
         return currentAnswer;
     });
+    const [tentativeGuess, setTentativeGuess] = React.useState("");
     const [pastAnswers, setPastAnswers] = React.useState([]);
     const [guessList, setGuessList] = React.useState([]);
     const [gameStatus, setGameStatus] = React.useState("running");
@@ -80,6 +87,7 @@ function Game() {
             >
                 {answer}
             </div>
+            <Guess value={stringToObjectArray(tentativeGuess)}></Guess>
             <GuessList
                 guessList={guessList}
                 setGuessList={setGuessList}
@@ -87,6 +95,8 @@ function Game() {
             <GuessInput
                 handleSubmitGuess={handleSubmitGuess}
                 gameStatus={gameStatus}
+                tentativeGuess={tentativeGuess}
+                setTentativeGuess={setTentativeGuess}
             />
             <Keyboard
                 topKeyRow={Object.entries(keyboardKeys).slice(0, 10)}

@@ -1,7 +1,11 @@
 import React from "react";
 
-function GuessInput({ handleSubmitGuess, gameStatus }) {
-    const [tentativeGuess, setTentativeGuess] = React.useState("");
+function GuessInput({
+    handleSubmitGuess,
+    gameStatus,
+    tentativeGuess,
+    setTentativeGuess,
+}) {
     // Focus input on mount
     const inputRef = React.useRef(null);
     React.useEffect(() => {

@@ -17,8 +17,8 @@ function Guess({ value }) {
             {range(5).map((num) => (
                 <Cell
                     key={num}
-                    letter={value ? value[num].letter : undefined}
-                    status={value ? value[num].status : undefined}
+                    letter={value && value[num] ? value[num].letter : ""}
+                    status={value && value[num] ? value[num].status : undefined}
                 />
             ))}
         </p>
