@@ -1,5 +1,5 @@
 // @ts-check
-const { defineConfig, devices } = require("@playwright/experimental-ct-react");
+const { defineConfig, devices } = require("@playwright/test");
 
 /**
  * @see https://playwright.dev/docs/test-configuration

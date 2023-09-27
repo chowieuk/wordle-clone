@@ -1,5 +1,5 @@
 // @ts-check
-import { test, expect } from "@playwright/experimental-ct-react";
+import { test, expect } from "@playwright/test";
 import { generateTestGuess } from "./utils/helpers";
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

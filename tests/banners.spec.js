@@ -1,9 +1,6 @@
 // @ts-check
-import { test, expect } from "@playwright/experimental-ct-react";
-import { range } from "../src/utils";
+import { test, expect } from "@playwright/test";
 import { NUM_OF_GUESSES_ALLOWED } from "../src/constants";
-
-const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 test.use({ viewport: { width: 700, height: 1200 } });
 

@@ -1,7 +1,5 @@
 // @ts-check
-import { test, expect } from "@playwright/experimental-ct-react";
-import { NUM_OF_GUESSES_ALLOWED } from "../src/constants";
-import { generateTestGuess } from "./utils/helpers";
+import { test, expect } from "@playwright/test";
 
 test.use({ viewport: { width: 700, height: 1200 } });
 
