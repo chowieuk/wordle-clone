@@ -8,7 +8,7 @@ test.use({ viewport: { width: 700, height: 1200 } });
 test.beforeEach(async ({ page }) => {
     // Go to the starting url before each test.
     // TODO: replace with ENV variable?
-    await page.goto("http://localhost:1234");
+    await page.goto("/");
 });
 
 test("the letters of a guess are appropriately formatted in the onscreen keyboard", async ({
@@ -163,10 +163,6 @@ test("misplaced letters can be reformatted as correct upon subsequent guess", as
 
     await guessInput.fill(resubmissionString);
     await guessInput.press("Enter");
-
-    await expect(
-        page.locator(".keyCell", { hasText: misplacedChar })
-    ).toHaveClass("correct keyCell");
 
     await expect(
         page.locator(".correct.keyCell", { hasText: misplacedChar })

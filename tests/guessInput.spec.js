@@ -6,7 +6,7 @@ test.use({ viewport: { width: 700, height: 1200 } });
 test.beforeEach(async ({ page }) => {
     // Go to the starting url before each test.
     // TODO: replace with ENV variable?
-    await page.goto("http://localhost:1234");
+    await page.goto("/");
     // added because waitForLoadState was intermitentently missing the first one or two characters
     await page.getByTestId("input-ready").waitFor();
 });

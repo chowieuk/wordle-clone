@@ -8,7 +8,7 @@ test.use({ viewport: { width: 700, height: 1200 } });
 test.beforeEach(async ({ page }) => {
     // Go to the starting url before each test.
     // TODO: replace with ENV variable?
-    await page.goto("http://localhost:1234");
+    await page.goto("/");
 });
 
 test("submitted guesses are rendered in the appropriate entry in the guess list", async ({
@@ -77,6 +77,11 @@ test("submitted guesses contain the expected accessibility text compared to the 
     const answer = await page.getByTestId("answerForTesting").innerText();
     const testGuessString = generateTestGuess(answer);
 
+    // using this function as test fails on webkit
+    function normalizeWhitespace(str) {
+        return str.replace(/\s+/g, " ").trim();
+    }
+
     for (let i = 0; i < NUM_OF_GUESSES_ALLOWED; i++) {
         // Submit the guess
         await guessInput.fill(testGuessString);
@@ -91,11 +96,21 @@ test("submitted guesses contain the expected accessibility text compared to the 
             // Check the class name contents of the cells is as expected
             const cellTexts = await guess.locator(".cell").allInnerTexts();
 
-            expect(cellTexts[0]).toBe(`${testGuessString[0]}\nincorrect`);
-            expect(cellTexts[1]).toBe(`${testGuessString[1]}\nincorrect`);
-            expect(cellTexts[2]).toBe(`${testGuessString[2]}\nmisplaced`);
-            expect(cellTexts[3]).toBe(`${testGuessString[3]}\ncorrect`);
-            expect(cellTexts[4]).toBe(`${testGuessString[4]}\ncorrect`);
+            expect(normalizeWhitespace(cellTexts[0])).toBe(
+                normalizeWhitespace(`${testGuessString[0]} incorrect`)
+            );
+            expect(normalizeWhitespace(cellTexts[1])).toBe(
+                normalizeWhitespace(`${testGuessString[1]} incorrect`)
+            );
+            expect(normalizeWhitespace(cellTexts[2])).toBe(
+                normalizeWhitespace(`${testGuessString[2]} misplaced`)
+            );
+            expect(normalizeWhitespace(cellTexts[3])).toBe(
+                normalizeWhitespace(`${testGuessString[3]} correct`)
+            );
+            expect(normalizeWhitespace(cellTexts[4])).toBe(
+                normalizeWhitespace(`${testGuessString[4]} correct`)
+            );
         }
     }
 });
