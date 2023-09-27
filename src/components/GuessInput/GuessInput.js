@@ -6,41 +6,42 @@ function GuessInput({
     tentativeGuess,
     setTentativeGuess,
 }) {
-    const handleKeyDown = (event) => {
-        // For alphanumeric characters
-        if (/^[a-zA-Z0-9]$/i.test(event.key) && tentativeGuess.length < 5) {
-            setTentativeGuess((prev) => prev + event.key.toUpperCase());
-        }
-        // For the backspace key
-        else if (event.key === "Backspace" && tentativeGuess.length > 0) {
-            setTentativeGuess((prev) => prev.substring(0, prev.length - 1));
-        }
-        // For the Enter key
-        else if (event.key === "Enter") {
-            event.preventDefault();
-            handleSubmitGuess(tentativeGuess);
-            setTentativeGuess("");
-        }
-    };
+    const handleKeyDown = React.useCallback(
+        (event) => {
+            // For alphanumeric characters
+            if (/^[a-zA-Z0-9]$/i.test(event.key) && tentativeGuess.length < 5) {
+                setTentativeGuess((prev) => prev + event.key.toUpperCase());
+            }
+            // For the backspace key
+            else if (event.key === "Backspace" && tentativeGuess.length > 0) {
+                setTentativeGuess((prev) => prev.substring(0, prev.length - 1));
+            }
+            // For the Enter key
+            else if (event.key === "Enter") {
+                if (
+                    tentativeGuess.length === 5 &&
+                    /^[a-zA-Z]{5}$/.test(tentativeGuess)
+                ) {
+                    event.preventDefault();
+                    handleSubmitGuess(tentativeGuess);
+                    setTentativeGuess("");
+                } else {
+                    console.error(
+                        ` '${tentativeGuess}' is an invalid input! Please enter a 5-letter word.`
+                    );
+                }
+            }
+        },
+        [tentativeGuess, setTentativeGuess, handleSubmitGuess]
+    );
 
     React.useEffect(() => {
         document.addEventListener("keydown", handleKeyDown);
-        // document.addEventListener("keyup", handleKeyUp);
-
         // Cleanup: remove the listeners when the component is unmounted.
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
-            // document.removeEventListener("keyup", handleKeyUp);
         };
-    }, [tentativeGuess]); // Dependency array ensures the effect runs whenever inputValue changes
-
-    // // Focus input on mount
-    // const inputRef = React.useRef(null);
-    // React.useEffect(() => {
-    //     if (inputRef.current) {
-    //         inputRef.current.focus();
-    //     }
-    // }, []); // Empty dependency array to ensure useEffect runs only once
+    }, [handleKeyDown]);
 
     return (
         <>
