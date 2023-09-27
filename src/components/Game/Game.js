@@ -11,6 +11,7 @@ import Keyboard from "../Keyboard/Keyboard";
 import LossBanner from "../LossBanner/LossBanner";
 import WonBanner from "../WonBanner/WonBanner";
 import ResetGameButton from "../ResetGameButton/ResetGameButton";
+import VisuallyHidden from "../VisuallyHidden/VisuallyHidden";
 
 function Game() {
     //set our wordlist in stone
@@ -87,12 +88,14 @@ function Game() {
                 tentativeGuess={tentativeGuess}
                 gameStatus={gameStatus}
             />
-            <GuessInput
-                handleSubmitGuess={handleSubmitGuess}
-                gameStatus={gameStatus}
-                tentativeGuess={tentativeGuess}
-                setTentativeGuess={setTentativeGuess}
-            />
+            <VisuallyHidden>
+                <GuessInput
+                    handleSubmitGuess={handleSubmitGuess}
+                    gameStatus={gameStatus}
+                    tentativeGuess={tentativeGuess}
+                    setTentativeGuess={setTentativeGuess}
+                />
+            </VisuallyHidden>
             <Keyboard
                 topKeyRow={Object.entries(keyboardKeys).slice(0, 10)}
                 midKeyRow={Object.entries(keyboardKeys).slice(10, 19)}

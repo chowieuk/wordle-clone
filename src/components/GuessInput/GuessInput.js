@@ -6,13 +6,41 @@ function GuessInput({
     tentativeGuess,
     setTentativeGuess,
 }) {
-    // Focus input on mount
-    const inputRef = React.useRef(null);
-    React.useEffect(() => {
-        if (inputRef.current) {
-            inputRef.current.focus();
+    const handleKeyDown = (event) => {
+        // For alphanumeric characters
+        if (/^[a-zA-Z0-9]$/i.test(event.key) && tentativeGuess.length < 5) {
+            setTentativeGuess((prev) => prev + event.key.toUpperCase());
         }
-    }, []); // Empty dependency array to ensure useEffect runs only once
+        // For the backspace key
+        else if (event.key === "Backspace" && tentativeGuess.length > 0) {
+            setTentativeGuess((prev) => prev.substring(0, prev.length - 1));
+        }
+        // For the Enter key
+        else if (event.key === "Enter") {
+            event.preventDefault();
+            handleSubmitGuess(tentativeGuess);
+            setTentativeGuess("");
+        }
+    };
+
+    React.useEffect(() => {
+        document.addEventListener("keydown", handleKeyDown);
+        // document.addEventListener("keyup", handleKeyUp);
+
+        // Cleanup: remove the listeners when the component is unmounted.
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+            // document.removeEventListener("keyup", handleKeyUp);
+        };
+    }, [tentativeGuess]); // Dependency array ensures the effect runs whenever inputValue changes
+
+    // // Focus input on mount
+    // const inputRef = React.useRef(null);
+    // React.useEffect(() => {
+    //     if (inputRef.current) {
+    //         inputRef.current.focus();
+    //     }
+    // }, []); // Empty dependency array to ensure useEffect runs only once
 
     return (
         <>
@@ -27,7 +55,7 @@ function GuessInput({
             >
                 <label htmlFor="guess-input">Enter guess:</label>
                 <input
-                    ref={inputRef}
+                    // ref={inputRef}
                     id="guess-input"
                     type="text"
                     disabled={gameStatus !== "running"}
