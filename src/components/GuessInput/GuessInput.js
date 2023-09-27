@@ -10,6 +10,7 @@ function GuessInput({
 
     const handleKeyDown = React.useCallback(
         (event) => {
+            console.log(`Key pressed: ${event.key}`);
             // For alphabetical characters
             if (/^[a-zA-Z]$/i.test(event.key) && tentativeGuess.length < 5) {
                 setTentativeGuess((prev) => prev + event.key.toUpperCase());

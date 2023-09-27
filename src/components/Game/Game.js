@@ -100,6 +100,9 @@ function Game() {
                 topKeyRow={Object.entries(keyboardKeys).slice(0, 10)}
                 midKeyRow={Object.entries(keyboardKeys).slice(10, 19)}
                 botKeyRow={Object.entries(keyboardKeys).slice(19)}
+                tentativeGuess={tentativeGuess}
+                setTentativeGuess={setTentativeGuess}
+                handleSubmitGuess={handleSubmitGuess}
             ></Keyboard>
             {gameStatus === "lost" && (
                 <LossBanner answer={answer}>

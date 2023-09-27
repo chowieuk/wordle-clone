@@ -80,7 +80,8 @@ test("there is a visible keyCell for each entry in UNUSED_KEYBOARD", async ({
 }) => {
     const cells = await page.locator(".keyCell").all();
 
-    expect(cells.length).toEqual(Object.keys(UNUSED_KEYBOARD).length);
+    // the additional 2 are the Enter and Backspace keys
+    expect(cells.length).toEqual(Object.keys(UNUSED_KEYBOARD).length + 2);
 
     for (let cell of cells) {
         await expect(cell).toBeVisible();
@@ -107,9 +108,14 @@ test("the keyCells are rendered in the same order as they are entered within UNU
         })
     );
 
+    // Remove Enter and Backspace
+    const strippedCellTexts = cellTexts.filter(
+        (item) => item !== "Enter" && item !== "<"
+    );
+
     // Compare with UNUSED_KEYBOARD keys
     const keyboardKeys = Object.keys(UNUSED_KEYBOARD);
-    expect(cellTexts).toEqual(keyboardKeys);
+    expect(strippedCellTexts).toEqual(keyboardKeys);
 });
 
 test("the keyCells begin without status formatting", async ({ page }) => {
