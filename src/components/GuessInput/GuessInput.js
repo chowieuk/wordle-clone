@@ -6,10 +6,12 @@ function GuessInput({
     tentativeGuess,
     setTentativeGuess,
 }) {
+    const [listenerReady, setListenerReady] = React.useState(false);
+
     const handleKeyDown = React.useCallback(
         (event) => {
-            // For alphanumeric characters
-            if (/^[a-zA-Z0-9]$/i.test(event.key) && tentativeGuess.length < 5) {
+            // For alphabetical characters
+            if (/^[a-zA-Z]$/i.test(event.key) && tentativeGuess.length < 5) {
                 setTentativeGuess((prev) => prev + event.key.toUpperCase());
             }
             // For the backspace key
@@ -37,6 +39,9 @@ function GuessInput({
 
     React.useEffect(() => {
         document.addEventListener("keydown", handleKeyDown);
+        // Added for testing purposes
+        setListenerReady(true);
+
         // Cleanup: remove the listeners when the component is unmounted.
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
@@ -48,6 +53,7 @@ function GuessInput({
             <form
                 autoComplete="off"
                 className="guess-input-wrapper"
+                data-testid={listenerReady ? "input-ready" : undefined}
                 onSubmit={(event) => {
                     event.preventDefault();
                     handleSubmitGuess(tentativeGuess);
