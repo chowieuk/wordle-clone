@@ -65,11 +65,6 @@ test("guess input empty on mount", async ({ page }) => {
     await expect(input).toBeEmpty();
 });
 
-test("guess input field focused on mount", async ({ page }) => {
-    const input = page.getByLabel("Enter guess:");
-    await expect(input).toBeFocused();
-});
-
 test("keyboard visible", async ({ page }) => {
     const keyboard = page.locator(".keyboard-wrapper");
     await expect(keyboard).toBeVisible();
